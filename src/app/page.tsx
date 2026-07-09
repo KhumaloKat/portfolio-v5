@@ -6,7 +6,7 @@ import DualToggleButtons from "@/components/ui/DualButtons";
 import Image from "next/image";
 import { ChangeEvent, FormEvent, useRef, useState, useEffect } from "react";
 // import { Star } from "lucide-react";
-import emailjs from "@emailjs/browser";
+import emailjs, { EmailJSResponseStatus } from "@emailjs/browser";
 // import OrangeButton from "@/components/ui/OrangeButton";
 // import ArrowButton from "@/components/ui/ArrowButton";
 import { experiences, buttons, skills, portfolioData, cardData } from '../data/data';
@@ -62,12 +62,12 @@ export default function Home() {
       console.log("EmailJS Success:", response);
       setStatusMessage("Your message has been sent successfully!");
       setFormData({ from_name: "", from_email: "", subject: "", message: "" });
-    } catch (error: any) {
-      console.error("EmailJS Error Details:", error);
-      console.error("Error Text:", error?.text);
-      console.error("Error Status:", error?.status);
-      setStatusMessage("Something went wrong while sending your message. Please try again later.");
-    } finally {
+    } } catch (error: unknown) {
+  if (error instanceof EmailJSResponseStatus) {
+    console.error(error.text);
+    console.error(error.status);
+  }
+} finally {
       setIsSending(false);
     }
   };
