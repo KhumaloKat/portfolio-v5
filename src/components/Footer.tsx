@@ -53,14 +53,27 @@ const Footer = () => {
       console.log("EmailJS Success:", response);
       setStatusMessage("Your message has been sent successfully!");
       setFormData({ from_name: "", from_email: "", subject: "", message: "" });
-    } catch (error: any) {
-      console.error("EmailJS Error Details:", error);
-      console.error("Error Text:", error?.text);
-      console.error("Error Status:", error?.status);
-      setStatusMessage("Something went wrong while sending your message. Please try again later.");
-    } finally {
-      setIsSending(false);
-    }
+    } } catch (error: unknown) {
+  console.error("EmailJS Error Details:", error);
+
+  if (typeof error === "object" && error !== null) {
+    const emailError = error as {
+      text?: string;
+      status?: number;
+      message?: string;
+    };
+
+    console.error("Error Message:", emailError.message);
+    console.error("Error Text:", emailError.text);
+    console.error("Error Status:", emailError.status);
+  }
+
+  setStatusMessage(
+    "Something went wrong while sending your message. Please try again later."
+  );
+} finally {
+  setIsSending(false);
+}
   };
 
   return (
