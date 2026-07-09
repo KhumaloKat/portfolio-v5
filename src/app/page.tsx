@@ -1,12 +1,12 @@
 "use client";
 
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import CustomeText from "@/components/ui/CustomeText";
 import DualToggleButtons from "@/components/ui/DualButtons";
 import Image from "next/image";
-import { ChangeEvent, FormEvent, useRef, useState, useEffect } from "react";
+import { useState } from "react";
 // import { Star } from "lucide-react";
-import emailjs, { EmailJSResponseStatus } from "@emailjs/browser";
 // import OrangeButton from "@/components/ui/OrangeButton";
 // import ArrowButton from "@/components/ui/ArrowButton";
 import { experiences, buttons, skills, portfolioData, cardData } from '../data/data';
@@ -16,60 +16,6 @@ import PortfolioCard from "@/components/ui/PortfolioCard";
 
 export default function Home() {
   const [showAllProjects, setShowAllProjects] = useState(false);
-  const [isSending, setIsSending] = useState(false);
-  const [statusMessage, setStatusMessage] = useState("");
-  const formRef = useRef<HTMLFormElement>(null);
-  const [formData, setFormData] = useState({
-    from_name: "",
-    from_email: "",
-    subject: "",
-    message: "",
-  });
-
-  // Initialize EmailJS
-  useEffect(() => {
-    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-    if (publicKey) {
-      emailjs.init(publicKey);
-    }
-  }, []);
-
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsSending(true);
-    setStatusMessage("");
-
-    try {
-      const response = await emailjs.send(
-        "service_ugilufa",
-        "template_lezac9x",
-        {
-          from_name: formData.from_name,
-          from_email: formData.from_email,
-          subject: formData.subject || "No Subject",
-          message: formData.message,
-          to_email: "khumalosiya2001@gmail.com",
-        }
-      );
-
-      console.log("EmailJS Success:", response);
-      setStatusMessage("Your message has been sent successfully!");
-      setFormData({ from_name: "", from_email: "", subject: "", message: "" });
-    } } catch (error: unknown) {
-  if (error instanceof EmailJSResponseStatus) {
-    console.error(error.text);
-    console.error(error.status);
-} finally {
-      setIsSending(false);
-    }
-  };
 
   return (
     <div className="relative min-h-screen w-full bg-white py-10 flex flex-col items-center justify-start">
@@ -377,7 +323,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-
+    <Footer />
     </div>
   );
 }
