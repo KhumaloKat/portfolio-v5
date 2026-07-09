@@ -33,48 +33,54 @@ const Footer = () => {
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsSending(true);
-    setStatusMessage("");
+  event.preventDefault();
+  setIsSending(true);
+  setStatusMessage("");
 
-    try {
-      const response = await emailjs.send(
-        "service_ugilufa",
-        "template_lezac9x",
-        {
-          from_name: formData.from_name,
-          from_email: formData.from_email,
-          subject: formData.subject || "No Subject",
-          message: formData.message,
-          to_email: "khumalosiya2001@gmail.com",
-        }
-      );
+  try {
+    const response = await emailjs.send(
+      "service_ugilufa",
+      "template_lezac9x",
+      {
+        from_name: formData.from_name,
+        from_email: formData.from_email,
+        subject: formData.subject || "No Subject",
+        message: formData.message,
+        to_email: "khumalosiya2001@gmail.com",
+      }
+    );
 
-      console.log("EmailJS Success:", response);
-      setStatusMessage("Your message has been sent successfully!");
-      setFormData({ from_name: "", from_email: "", subject: "", message: "" });
-    } } catch (error: unknown) {
-  console.error("EmailJS Error Details:", error);
+    console.log("EmailJS Success:", response);
 
-  if (typeof error === "object" && error !== null) {
-    const emailError = error as {
-      text?: string;
-      status?: number;
-      message?: string;
-    };
+    setStatusMessage("Your message has been sent successfully!");
+    setFormData({
+      from_name: "",
+      from_email: "",
+      subject: "",
+      message: "",
+    });
+  } catch (error: unknown) {
+    console.error("EmailJS Error:", error);
 
-    console.error("Error Message:", emailError.message);
-    console.error("Error Text:", emailError.text);
-    console.error("Error Status:", emailError.status);
+    if (typeof error === "object" && error !== null) {
+      const emailError = error as {
+        text?: string;
+        status?: number;
+        message?: string;
+      };
+
+      console.error("Error Message:", emailError.message);
+      console.error("Error Text:", emailError.text);
+      console.error("Error Status:", emailError.status);
+    }
+
+    setStatusMessage(
+      "Something went wrong while sending your message. Please try again later."
+    );
+  } finally {
+    setIsSending(false);
   }
-
-  setStatusMessage(
-    "Something went wrong while sending your message. Please try again later."
-  );
-} finally {
-  setIsSending(false);
-}
-  };
+};
 
   return (
     <footer className="w-full bg-white flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-[71px] gap-10">
