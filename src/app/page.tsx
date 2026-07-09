@@ -66,7 +66,6 @@ export default function Home() {
   if (error instanceof EmailJSResponseStatus) {
     console.error(error.text);
     console.error(error.status);
-  }
 } finally {
       setIsSending(false);
     }
