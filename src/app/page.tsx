@@ -1,15 +1,77 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import CustomeText from "@/components/ui/CustomeText";
 import DualToggleButtons from "@/components/ui/DualButtons";
 import Image from "next/image";
+import { ChangeEvent, FormEvent, useRef, useState, useEffect } from "react";
 import { Star } from "lucide-react";
+import emailjs from "@emailjs/browser";
 import OrangeButton from "@/components/ui/OrangeButton";
 import ArrowButton from "@/components/ui/ArrowButton";
 import { experiences, buttons, iconAndText, skills, blogs, portfolioData, cardData, reviews } from '../data/data';
 import { GenericSlider } from "@/components/ui/GenericSlider";
 import ClientOnly from "@/components/ui/ClientOnly";
+import PortfolioCard from "@/components/ui/PortfolioCard";
 
 export default function Home() {
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
+  const [formData, setFormData] = useState({
+    from_name: "",
+    from_email: "",
+    subject: "",
+    message: "",
+  });
+
+  // Initialize EmailJS
+  useEffect(() => {
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+    if (publicKey) {
+      emailjs.init(publicKey);
+    }
+  }, []);
+
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSending(true);
+    setStatusMessage("");
+
+    try {
+      const response = await emailjs.send(
+        "service_ugilufa",
+        "template_lezac9x",
+        {
+          from_name: formData.from_name,
+          from_email: formData.from_email,
+          subject: formData.subject || "No Subject",
+          message: formData.message,
+          to_email: "khumalosiya2001@gmail.com",
+        }
+      );
+
+      console.log("EmailJS Success:", response);
+      setStatusMessage("Your message has been sent successfully!");
+      setFormData({ from_name: "", from_email: "", subject: "", message: "" });
+    } catch (error: any) {
+      console.error("EmailJS Error Details:", error);
+      console.error("Error Text:", error?.text);
+      console.error("Error Status:", error?.status);
+      setStatusMessage("Something went wrong while sending your message. Please try again later.");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
     <div className="relative min-h-screen w-full bg-white py-10 flex flex-col items-center justify-start">
       <Navbar />
@@ -60,9 +122,9 @@ export default function Home() {
 
             <div className="absolute z-10 transition-all duration-500 ease-in-out opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-105">
               <Image
-                src="/Frame 68.svg"
+                src="/Frame 68.png"
                 alt="Frame Decoration"
-                width={1017}
+                width={917}
                 height={688}
                 className="object-contain w-full h-auto"
                 priority
@@ -137,7 +199,13 @@ export default function Home() {
                   <CustomeText title={exp.duration} className="text-[#98A2B3] text-[14px] sm:text-[16px] mb-2" />
                   <CustomeText title={exp.role} className="font-semibold text-[#1D2939] text-[18px] sm:text-[20px] mb-2" />
                   {exp.desc && (
-                    <CustomeText title={exp.desc} className="text-[#98A2B3] text-[14px] sm:text-[16px] leading-relaxed" />
+                    <ul className="mt-2 space-y-1.5">
+                      {exp.desc.map((item, itemIndex) => (
+                        <li key={itemIndex} className="ml-4 list-disc text-[#98A2B3] text-[12px] sm:text-[14px] leading-relaxed">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
                   )}
                 </div>
               </div>
@@ -170,7 +238,13 @@ export default function Home() {
               <div key={index} className="flex flex-col gap-[14px]">
                 <CustomeText title={exp.role} className="font-semibold text-[#1D2939] text-[40px]" />
                 {exp.desc && (
-                  <CustomeText title={exp.desc} className="text-2xl text-[#98A2B3]" />
+                  <ul className="space-y-2">
+                    {exp.desc.map((item, itemIndex) => (
+                      <li key={itemIndex} className="ml-5 list-disc text-[16px] lg:text-[18px] text-[#98A2B3] leading-relaxed">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </div>
             ))}
@@ -179,7 +253,7 @@ export default function Home() {
       </div>
 
       {/* Education */}
-      <div className="w-full flex flex-col lg:flex-row items-center justify-between px-6 lg:px-[71px] py-20 lg:py-[122px] bg-[#F2F4F7] rounded-[32px] lg:rounded-[50px] gap-12 lg:gap-[96px]">
+      <div className="w-full mt-8 lg:mt-16 flex flex-col lg:flex-row items-center justify-between px-6 lg:px-[71px] py-20 lg:py-[122px] bg-[#F2F4F7] rounded-[32px] lg:rounded-[50px] gap-12 lg:gap-[96px]">
         <div className="relative w-full max-w-[500px] aspect-square group mx-auto lg:mx-0">
           <Image
             src="/Property 1=Default.svg"
@@ -229,36 +303,37 @@ export default function Home() {
         <div className="w-full flex flex-col sm:flex-row justify-between items-start lg:items-center gap-6">
           <div className="flex flex-col items-start max-w-full lg:max-w-[643px]">
             <CustomeText
-              title="Additional"
+              title="Portfolio"
               className="font-semibold text-[32px] sm:text-[48px] lg:text-[64px] text-[#344054]"
             />
-            <div className="flex items-start justify-start gap-4 flex-wrap">
-              <CustomeText
-                title="Information"
-                className="font-semibold text-[32px] sm:text-[48px] lg:text-[64px] text-[#7b7d7a]"
-              />
-            </div>
           </div>
 
           <div className="shrink-0">
-            <a
-              href="https://drive.google.com/file/d/1mG5c70vuyMdaR24hQhFIpPqJzAbAeYpR/view?usp=drive_link"
-              target="_blank"
-              rel="noreferrer"
+            <button
+              type="button"
+              onClick={() => setShowAllProjects((prev) => !prev)}
               className="inline-flex items-center justify-center px-8 py-4 rounded-[24px] bg-[#7b7d7a] text-white text-[18px] sm:text-[20px] font-semibold transition-all duration-300 hover:bg-[#7b7d7a]"
             >
-              View Resume
-            </a>
+              {showAllProjects ? "Show Less" : "See All"}
+            </button>
           </div>
         </div>
 
         <div className="w-full flex flex-col items-center gap-10 lg:gap-12 max-w-[1290px]">
-          <GenericSlider
-            data={portfolioData}
-            slidesPerView={2}
-            heightClass="h-auto"
-            cardType="portfolio"
-          />
+          {showAllProjects ? (
+            <div className="grid w-full grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+              {portfolioData.map((project, index) => (
+                <PortfolioCard key={project.title} {...project} priority={index === 0} />
+              ))}
+            </div>
+          ) : (
+            <GenericSlider
+              data={portfolioData}
+              slidesPerView={2}
+              heightClass="h-auto"
+              cardType="portfolio"
+            />
+          )}
 
           <div className="w-full max-w-[947px] flex flex-wrap justify-center gap-4 sm:gap-[14px] items-center">
             <ClientOnly>
@@ -273,117 +348,6 @@ export default function Home() {
             </ClientOnly>
           </div>
 
-          <div className="flex flex-col w-full max-w-[742px] items-start gap-6 px-4 sm:px-0">
-            <div className="flex flex-col sm:flex-row w-full items-start sm:items-center gap-4 sm:gap-[18px]">
-              <CustomeText
-                title="Lirante - Food Delivery Solution"
-                className="font-bold text-[28px] sm:text-[32px] lg:text-[40px] text-[#344054]"
-              />
-              <div className="w-[50px] h-[50px] sm:w-[58px] sm:h-[58px] rounded-full bg-[#7b7d7a] hidden md:flex items-center justify-center transition-all duration-300">
-                <ArrowButton className="transition-all duration-300 stroke-white -rotate-45" />
-              </div>
-            </div>
-            <p className="text-[16px] sm:text-[18px] lg:text-[20px] text-[#344054] text-center sm:text-left">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis orci elementum egestas lobortis.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Testimonials */}
-      <div className="relative flex flex-col w-full min-h-[900px] items-center px-4 sm:px-6 lg:px-[71px] py-12 sm:py-[96px]  gap-12 bg-[#171717] rounded-[30px] sm:rounded-[40px] lg:rounded-[50px] overflow-hidden">
-        <Image
-          src="/Frame 77.svg"
-          alt="image"
-          fill
-          className="object-cover absolute opacity-50"
-        />
-
-        <div className="flex flex-col w-full max-w-[1299px] items-center gap-4 z-10 px-2">
-          <div className="flex flex-col items-center max-w-full sm:max-w-[448px]">
-            <CustomeText
-              title="Testimonials That"
-              className="font-medium text-[28px] sm:text-[36px] lg:text-[48px] text-[#FCFCFD] text-center"
-            />
-            <div className="flex flex-wrap gap-2.5 justify-center">
-              <CustomeText
-                title="Speak to"
-                className="font-medium text-[28px] sm:text-[36px] lg:text-[48px] text-[#FCFCFD]"
-              />
-              <CustomeText
-                title="My Result"
-                className="font-medium text-[28px] sm:text-[36px] lg:text-[48px] text-[#7b7d7a]"
-              />
-            </div>
-          </div>
-          <p className="w-full max-w-[742px] text-[16px] sm:text-[18px] lg:text-[20px] text-[#F9FAFB] text-center leading-[1.6] px-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim.
-          </p>
-        </div>
-
-        <div className="absolute bottom-[20%] left-0 right-0 w-full z-10">
-          <GenericSlider
-            data={reviews}
-            slidesPerView={3}
-            heightClass=""
-            cardType="review"
-          />
-        </div>
-      </div>
-
-
-      {/* Contact */}
-      <div className="w-full bg-white flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-[71px] gap-10">
-        <div className="w-full max-w-4xl text-center flex flex-col items-center gap-4">
-          <CustomeText
-            title="Have an Awesome Project"
-            className="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[64px] text-[#344054]"
-          />
-          <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-4">
-            <CustomeText
-              title="Idea?"
-              className="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[64px] text-[#344054]"
-            />
-            <CustomeText
-              title="Let's Discuss"
-              className="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[64px] text-[#7b7d7a]"
-            />
-          </div>
-        </div>
-
-        <div className="w-full max-w-3xl flex md:flex-row items-center justify-between gap-4 px-3 py-2 md:px-6 md:py-4 rounded-full border border-[#E4E7EC] bg-white">
-          <div className="w-9 h-9 md:w-[50px] md:h-[50px] flex items-center justify-center rounded-full bg-[#7b7d7a] shrink-0">
-            <Image
-              src="/sms.svg"
-              alt="message icon"
-              width={24}
-              height={24}
-            />
-          </div>
-
-          <ClientOnly>
-            <input
-              type="text"
-              placeholder="Enter Email Address"
-              className="w-full md:flex-1 px-4 py-2 rounded-full text-center md:text-left text-base sm:text-lg outline-none bg-transparent text-[#1D2939] placeholder:text-[#667085]"
-            />
-
-            <button className="w-fit px-6 md:px-12 py-1 md:py-3 rounded-full bg-[#7b7d7a] hover:bg-[#7b7d7a] text-white text-lg font-semibold transition duration-300">
-              Send
-            </button>
-          </ClientOnly>
-        </div>
-
-        <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-sm sm:text-base font-medium text-[#000000]">
-          {iconAndText.map((data, index) => {
-            const Icon = data.icon;
-            return (
-              <div key={index} className="flex items-center gap-2">
-                <Icon size={20} />
-                {data.name}
-              </div>
-            );
-          })}
         </div>
       </div>
 
@@ -413,20 +377,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Blog */}
-      <div className="flex flex-col w-full max-w-[1080px] mx-auto items-center gap-12 px-4 sm:px-6 py-16">
-        <div className="w-full h-[126px] flex flex-col lg:flex-row items-center justify-between gap-6 mb-6 md:mb-0">
-          <h1 className="text-[#344054] w-fit md:min-w-[215px] h-full font-bold text-4xl md:text-5xl">From my blog post</h1>
-          <OrangeButton title="See All" className="w-[300px] md:w-fit" />
-        </div>
-        <GenericSlider
-          data={blogs}
-          slidesPerView={3}
-          heightClass=""
-          cardType="blog"
-        />
       </div>
 
     </div>

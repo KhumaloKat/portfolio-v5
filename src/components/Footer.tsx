@@ -1,130 +1,176 @@
-import React from "react";
-import { FacebookIcon, YoutubeIcon, InstagramIcon, TwitterIcon, MessageCircle } from "lucide-react";
-import { ArrowUpRight } from "lucide-react";
+"use client";
+
+import React, { ChangeEvent, FormEvent, useRef, useState, useEffect } from "react";
 import CustomeText from "./ui/CustomeText";
 import Link from "next/link";
 import ClientOnly from "./ui/ClientOnly";
+import emailjs from "@emailjs/browser";
 
 const Footer = () => {
-    const navigation = ["Home", "About", "Service", "Resume", "Project", "Contact"];
-    const iconsAndUrl = [
-        { icon: FacebookIcon, url: "https://facebook.com" },
-        { icon: YoutubeIcon, url: "https://youtube.com" },
-        { icon: MessageCircle, url: "https://whatsapp.com" },
-        { icon: InstagramIcon, url: "https://instagram.com" },
-        { icon: TwitterIcon, url: "https://twitter.com" },
-    ];
+  const [isSending, setIsSending] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
+  const [formData, setFormData] = useState({
+    from_name: "",
+    from_email: "",
+    subject: "",
+    message: "",
+  });
 
-    const contact = [
-        "+91 9874563210",
-        "hello@gmail.com",
-        "hello.com"
-    ]
+  // Initialize EmailJS
+  useEffect(() => {
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+    if (publicKey) {
+      emailjs.init(publicKey);
+    }
+  }, []);
 
-    return (
-        <footer className="w-full min-h-[400px] lg:h-[685px] px-4 sm:px-6 lg:px-[71px] py-[30px] sm:py-[35px] lg:py-[40px] flex flex-col bg-[#272727] rounded-t-2xl sm:rounded-t-3xl text-white justify-between">
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-            {/* Top Section */}
-            <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-6">
-                <h1 className="font-semibold leading-tight text-[32px] sm:text-[40px] lg:text-[48px] xl:text-[64px] text-[#FCFCFD] text-center lg:text-left">
-                    Let&apos;s Connect There
-                </h1>
-                <ClientOnly>
-                    <button className="group flex items-center justify-center gap-2 w-full sm:w-[180px] lg:w-[202px] h-[50px] sm:h-[56px] lg:h-[62px] px-4 sm:px-5 py-2 sm:py-2.5 text-white text-base sm:text-lg font-semibold rounded-full bg-[#7b7d7a] cursor-pointer hover:bg-[#7b7d7a] transition-colors">
-                        Hire Me
-                        <ArrowUpRight
-                            size={24}
-                            className="sm:w-7 sm:h-7 lg:w-8 lg:h-8 transition-transform duration-300 group-hover:rotate-45"
-                        />
-                    </button>
-                </ClientOnly>
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSending(true);
+    setStatusMessage("");
+
+    try {
+      const response = await emailjs.send(
+        "service_ugilufa",
+        "template_lezac9x",
+        {
+          from_name: formData.from_name,
+          from_email: formData.from_email,
+          subject: formData.subject || "No Subject",
+          message: formData.message,
+          to_email: "khumalosiya2001@gmail.com",
+        }
+      );
+
+      console.log("EmailJS Success:", response);
+      setStatusMessage("Your message has been sent successfully!");
+      setFormData({ from_name: "", from_email: "", subject: "", message: "" });
+    } catch (error: any) {
+      console.error("EmailJS Error Details:", error);
+      console.error("Error Text:", error?.text);
+      console.error("Error Status:", error?.status);
+      setStatusMessage("Something went wrong while sending your message. Please try again later.");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  return (
+    <footer className="w-full bg-white flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-[71px] gap-10">
+      <div className="w-full max-w-4xl text-center flex flex-col items-center gap-4">
+        <CustomeText
+          title="Contact Me"
+          className="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[64px] text-[#344054]"
+        />
+      </div>
+
+      <div className="w-full max-w-6xl grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="rounded-[32px] border border-[#E4E7EC] bg-[#F9FAFB] p-6 md:p-8 shadow-sm">
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
+              <input
+                type="text"
+                name="from_name"
+                value={formData.from_name}
+                onChange={handleChange}
+                placeholder="Name*"
+                required
+                className="w-full rounded-full border border-[#D0D5DD] bg-white px-4 py-3 text-base text-[#1D2939] outline-none placeholder:text-[#667085]"
+              />
+              <input
+                type="email"
+                name="from_email"
+                value={formData.from_email}
+                onChange={handleChange}
+                placeholder="Email*"
+                required
+                className="w-full rounded-full border border-[#D0D5DD] bg-white px-4 py-3 text-base text-[#1D2939] outline-none placeholder:text-[#667085]"
+              />
             </div>
 
-            <div className="border border-[#475467] w-full mt-6 md:mt-0"></div>
+            <input
+              type="text"
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              placeholder="Subject"
+              className="w-full rounded-full border border-[#D0D5DD] bg-white px-4 py-3 text-base text-[#1D2939] outline-none placeholder:text-[#667085]"
+            />
 
-            {/* Navigation Links */}
-            <div className="flex flex-col lg:flex-row justify-between w-full max-w-[1298px] h-auto lg:h-[239px] gap-8 lg:gap-0 mt-8 md:mt-0">
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              placeholder="Message"
+              rows={6}
+              required
+              className="w-full rounded-[24px] border border-[#D0D5DD] bg-white px-4 py-3 text-base text-[#1D2939] outline-none placeholder:text-[#667085]"
+            />
 
-                <div className="w-full lg:w-[635px] h-full flex flex-col items-start justify-start gap-6 lg:gap-10">
-                    <div className="flex gap-3 sm:gap-4 items-center flex-shrink-0 cursor-pointer">
-                        <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-[#7b7d7a] rounded-full flex items-center justify-center mb-1">
-                            <svg width="20" height="20" className="sm:w-6 sm:h-6 lg:w-6 lg:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <text x="4" y="18" fontSize="12" className="sm:text-sm lg:text-base" fontWeight="bold" fill="white">JC</text>
-                            </svg>
-                        </div>
-                        <span className="font-bold text-base sm:text-lg tracking-wide cursor-pointer">JCREA</span>
-                    </div>
-                    <p className="w-full h-auto lg:h-[61px] text-[16px] sm:text-[18px] lg:text-[20px] text-[#FCFCFD]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis orci elementum egestas lobortis.</p>
-                    <div className="flex gap-2 sm:gap-2.5">
-                        {iconsAndUrl.map((item, idx) => {
-                            const Icon = item.icon;
-                            return (
-                                <Link
-                                    key={idx}
-                                    href={`https://${item.url}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10  rounded-full flex hover:scale-110 transition-transform bg-[#333333] hover:bg-[#444444] items-center justify-center"
-                                >
-                                    <Icon size={16} className="sm:w-5 sm:h-5 lg:w-5 lg:h-5 text-[#7b7d7a]" />
-                                </Link>
-                            );
-                        })}
-                    </div>
-                </div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <button
+                type="submit"
+                disabled={isSending}
+                className="w-full sm:w-fit rounded-full bg-[#7b7d7a] px-8 py-3 text-lg font-semibold text-white transition duration-300 hover:bg-[#5f6160] disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {isSending ? "Sending..." : "Send"}
+              </button>
 
-                <div className="flex flex-col gap-5 lg:gap-7">
-                    <CustomeText title="Navigation" className="text-[18px] sm:text-[19px] lg:text-[20px] font-semibold text-[#7b7d7a]" />
-                    <div className="flex flex-col gap-3 lg:gap-5">
-                        {navigation.map((key, idx) => (
-                            <Link href={`#${key.toLowerCase()}`} key={idx} className="text-[#FCFCFD] text-[14px] sm:text-[15px] lg:text-[16px] cursor-pointer hover:text-[#7b7d7a] transition-colors">
-                                {key}
-                            </Link>
-                        ))}
-                    </div>
-                </div>
+              {statusMessage ? (
+                <p className={`text-sm ${statusMessage.includes("success") ? "text-green-600" : "text-red-600"}`}>
+                  {statusMessage}
+                </p>
+              ) : null}
+            </div>
+          </form>
+        </div>
 
-                <div className="flex flex-col gap-5 lg:gap-7">
-                    <CustomeText title="Contact" className="text-[18px] sm:text-[19px] lg:text-[20px] font-semibold text-[#7b7d7a]" />
-                    <div className="flex flex-col gap-3 lg:gap-5">
-                        {contact.map((key, idx) => (
-                            <span key={idx} className="text-[#FCFCFD] text-[14px] sm:text-[15px] lg:text-[16px] cursor-pointer hover:text-[#7b7d7a] transition-colors">
-                                {key}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="flex flex-col gap-5 lg:gap-7 w-full lg:w-[304px] items-start">
-                    <CustomeText
-                        title="Get the latest information"
-                        className="text-[18px] sm:text-[19px] lg:text-[20px] font-semibold text-[#7b7d7a]"
-                    />
-                    <div className="relative w-full h-[45px] sm:h-[48px] lg:h-[51px]">
-                        <ClientOnly>
-                            <input
-                                type="text"
-                                placeholder="Email Address"
-                                className="w-full h-full bg-white text-black text-[14px] sm:text-[15px] lg:text-[16px] px-3 sm:px-4 py-2 sm:py-3 pr-12 rounded-[8px] sm:rounded-[10px] border-none outline-none"
-                            />
-                            <button className="absolute top-0 right-0 h-full w-[45px] sm:w-[48px] lg:w-[51px] bg-[#7b7d7a] rounded-r-[8px] sm:rounded-r-[10px] flex items-center justify-center cursor-pointer hover:bg-[#7b7d7a] transition-colors">
-                                <svg width="20" height="21" className="sm:w-6 sm:h-6 lg:w-6 lg:h-6" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6.29602 3.48708C3.91012 2.38589 1.36183 4.66673 2.19279 7.15964L3.45424 10.9007C3.59136 11.3074 3.97267 11.5812 4.40182 11.5812H13C13.5523 11.5812 14 12.0289 14 12.5812C14 13.1335 13.5523 13.5812 13 13.5812H4.40182C3.97267 13.5812 3.59136 13.855 3.45424 14.2617L2.19281 18.0028C1.36183 20.4957 3.91012 22.7765 6.29603 21.6754L20.0983 15.3051C22.422 14.2326 22.422 10.9299 20.0983 9.85737L6.29602 3.48708Z" fill="#FCFCFD" />
-                                </svg>
-                            </button>
-                        </ClientOnly>
-                    </div>
-                </div>
+        <div className="rounded-[32px] border border-[#E4E7EC] bg-white p-6 md:p-8 shadow-sm">
+          <div className="space-y-6">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#7b7d7a]">Contact Me</p>
+              <h3 className="mt-2 text-2xl font-semibold text-[#344054]">Khumalo Katleho</h3>
+              <p className="text-[#667085]">Computer System Engineer</p>
             </div>
 
-            <div className="border border-[#475467] w-full mt-8 lg:mt-16"></div>
-
-            <div className="flex flex-col sm:flex-row w-full max-w-[1298px] h-auto lg:h-[26px] items-start justify-between gap-4 sm:gap-0 mt-6 md:mt-0">
-                <p className="w-full sm:w-[415px] h-auto lg:h-[26px] text-[16px] sm:text-[18px] lg:text-[20px] text-white text-center sm:text-left">Copyright© 2023 Jayesh. All Rights Reserved.</p>
-                <Link href={"#"} className="w-full sm:w-fit h-auto lg:h-[26px] text-[16px] sm:text-[18px] lg:text-[20px] text-white text-center sm:text-right hover:text-[#7b7d7a] transition-colors">Privacy Policy</Link>
+            <div className="space-y-4 text-[#344054]">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#7b7d7a]">Phone</p>
+                <a href="tel:+27641622166" className="mt-1 inline-block hover:text-[#7b7d7a]">+27 64 162 2166</a>
+              </div>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#7b7d7a]">Email</p>
+                <a href="mailto:khumalosiya2001@gmail.com" className="mt-1 inline-block hover:text-[#7b7d7a]">khumalosiya2001@gmail.com</a>
+              </div>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#7b7d7a]">GitHub</p>
+                <a href="https://github.com/KhumaloKat" target="_blank" rel="noreferrer" className="mt-1 inline-block hover:text-[#7b7d7a]">KhumaloKat</a>
+              </div>
             </div>
-        </footer>
-    );
+
+            <div className="flex flex-wrap gap-3 pt-2">
+              <a href="https://www.linkedin.com/in/khumalo-kat/" target="_blank" rel="noreferrer" className="rounded-full border border-[#D0D5DD] px-4 py-2 text-sm font-medium text-[#344054] transition hover:border-[#7b7d7a] hover:text-[#7b7d7a]">LinkedIn</a>
+              <a href="https://www.instagram.com/khumalo_kat/" target="_blank" rel="noreferrer" className="rounded-full border border-[#D0D5DD] px-4 py-2 text-sm font-medium text-[#344054] transition hover:border-[#7b7d7a] hover:text-[#7b7d7a]">Instagram</a>
+              <a href="https://www.facebook.com/khumalo.kat/" target="_blank" rel="noreferrer" className="rounded-full border border-[#D0D5DD] px-4 py-2 text-sm font-medium text-[#344054] transition hover:border-[#7b7d7a] hover:text-[#7b7d7a]">Facebook</a>
+              <a href="https://x.com/khumalo_kat" target="_blank" rel="noreferrer" className="rounded-full border border-[#D0D5DD] px-4 py-2 text-sm font-medium text-[#344054] transition hover:border-[#7b7d7a] hover:text-[#7b7d7a]">X</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full max-w-6xl border-t border-[#E4E7EC] pt-6 text-center text-sm text-[#667085]">
+        <p>© copyright KhumaloKat design | 2025</p>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

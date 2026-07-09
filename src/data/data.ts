@@ -4,7 +4,7 @@ export interface Experience {
   company: string;
   duration: string;
   role: string;
-  desc: string;
+  desc: string[];
   dotColor: string;
 }
 
@@ -47,14 +47,22 @@ export const experiences: Experience[] = [
     company: "TUT 4IR WIL",
     duration: "2024 - 2025",
     role: "Computer Vision",
-    desc: "Applied theoretical knowledge to real-world projects in computer vision, machine learning, and software development. Designed and executed end-to-end drone workflows, integrating data acquisition, processing, and analysis to deliver practical solutions.",
+    desc: [
+      "Applied theory to real-world projects in computer vision and software development.",
+      "Designed end-to-end drone workflows for data capture, processing, and analysis.",
+      "Delivered practical solutions that connected development, testing, and deployment.",
+    ],
     dotColor: "bg-[#7b7d7a]",
   },
   {
     company: "TUT 4IR LAB",
     duration: "2025 - 2026",
     role: "Drone Pilot Intern",
-    desc: "Configured Pixhawk systems and operated drones for photogrammetry. Planned missions to capture accurate aerial data for analysis. Ensured safe flight operations and data collection for downstream processing.",
+    desc: [
+      "Configured Pixhawk systems and operated drones for photogrammetry.",
+      "Planned missions to capture accurate aerial data for analysis.",
+      "Ensured safe flight operations and reliable data collection for downstream processing.",
+    ],
     dotColor: "bg-[#7b7d7a]",
   },
 ];
@@ -65,7 +73,6 @@ export const buttons: string[] = [
   "Machine Learning",
   "Web Development",
   "Computer Architecture",
-  "Systems Design",
   "BVLOS Drone Operations",
 ];
 
@@ -173,10 +180,8 @@ export const reviews: Review[] = [
 ];
 
 export const cardData: CardData[] = [
-  { title: "Software Development", imageSrc: "/Rectangle 7.svg" },
-  { title: "Computer Vision", imageSrc: "/Rectangle 7.svg" },
-  { title: "Machine Learning", imageSrc: "/Rectangle 7.svg" },
-  { title: "Web Development", imageSrc: "/Rectangle 7.svg" },
-  { title: "System Integration", imageSrc: "/Rectangle 7.svg" },
-  { title: "BVLOS Operations", imageSrc: "/Rectangle 7.svg" },
+  { title: "Software Development", imageSrc: "/p4.jpg" },
+  { title: "Computer Vision", imageSrc: "/p7.png" },
+  { title: "Machine Learning", imageSrc: "/medi.png" },
+  { title: "Drone Applications", imageSrc: "/operation.png" },
 ];
