@@ -2,8 +2,8 @@
 
 import React, { ChangeEvent, FormEvent, useRef, useState, useEffect } from "react";
 import CustomeText from "./ui/CustomeText";
-import Link from "next/link";
-import ClientOnly from "./ui/ClientOnly";
+// import Link from "next/link";
+// import ClientOnly from "./ui/ClientOnly";
 import emailjs from "@emailjs/browser";
 
 const Footer = () => {
