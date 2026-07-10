@@ -83,7 +83,7 @@ const Footer = () => {
 };
 
   return (
-    <footer className="w-full bg-white flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-[71px] gap-10">
+    <footer id="contact" className="w-full bg-white flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-[71px] gap-10">
       <div className="w-full max-w-4xl text-center flex flex-col items-center gap-4">
         <CustomeText
           title="Contact Me"
@@ -155,8 +155,7 @@ const Footer = () => {
         <div className="rounded-[32px] border border-[#E4E7EC] bg-white p-6 md:p-8 shadow-sm">
           <div className="space-y-6">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#7b7d7a]">Contact Me</p>
-              <h3 className="mt-2 text-2xl font-semibold text-[#344054]">Khumalo Katleho</h3>
+              <h3 className="text-2xl font-semibold text-[#344054]">Khumalo Katleho</h3>
               <p className="text-[#667085]">Computer System Engineer</p>
             </div>
 

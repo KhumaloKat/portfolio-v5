@@ -3,14 +3,28 @@
 import { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 
+const RESUME_URL = 'https://drive.google.com/file/d/1mG5c70vuyMdaR24hQhFIpPqJzAbAeYpR/view?usp=drive_link';
+
 export default function DualToggleButtons() {
-  const [active, setActive] = useState<"portfolio" | "hire">("portfolio");
+  const [active, setActive] = useState<"portfolio" | "resume">("portfolio");
+
+  const handlePortfolioClick = () => {
+    setActive('portfolio');
+    document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleResumeClick = () => {
+    setActive('resume');
+    window.open(RESUME_URL, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div className="flex border-b-2 border-white bg-white/10 backdrop-blur-[5px] rounded-full gap-[10px] p-[10px] w-[367px] h-[82px] items-center justify-center">
       {/* Portfolio Button */}
       <button
+        type="button"
         onMouseEnter={() => setActive("portfolio")}
+        onClick={handlePortfolioClick}
         className={`group flex items-center justify-center gap-2.5 px-5 py-2.5 rounded-[60px] transition-all duration-300 ease-in-out cursor-pointer
           ${
             active === "portfolio"
@@ -29,21 +43,23 @@ export default function DualToggleButtons() {
         />
       </button>
 
-      {/* Hire Me Button */}
+      {/* Resume Button */}
       <button
-        onMouseEnter={() => setActive("hire")}
+        type="button"
+        onMouseEnter={() => setActive("resume")}
+        onClick={handleResumeClick}
         className={`group flex items-center justify-center gap-2.5 px-5 py-2.5 rounded-[60px] transition-all duration-300 ease-in-out cursor-pointer
           ${
-            active === "hire"
+            active === "resume"
               ? "bg-[#7b7d7a] text-white font-medium text-[25px] w-[208px] h-[62px] border border-[#D0D5DD] shadow-md"
               : "bg-transparent text-white font-light text-[18px] w-[129px] h-[54px]"
           }`}
       >
-        Hire me
+        Resume
         <ArrowUpRight
           size={16}
           className={`transition-all duration-300 ${
-            active === "hire"
+            active === "resume"
               ? "opacity-100 translate-x-0"
               : "opacity-0 -translate-x-1 group-hover:opacity-100"
           }`}

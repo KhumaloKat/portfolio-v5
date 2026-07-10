@@ -4,11 +4,10 @@ import { Menu, X } from 'lucide-react'
 
 const Navbar = () => {
     const menuItems = [
-        { label: "Home" },
-        { label: "About" },
-        { label: "Resume" },
-        { label: "Project" },
-        { label: "Contact" },
+        { label: "Home", href: "#home" },
+        { label: "About", href: "#about" },
+        { label: "Project", href: "#portfolio" },
+        { label: "Contact", href: "#contact" },
     ];
     const [selected, setSelected] = useState("Home");
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -22,13 +21,14 @@ const Navbar = () => {
             {/* Left Menu (Desktop) */}
             <div className="hidden lg:flex flex-1 justify-start gap-2.5">
                 {menuItems.slice(0, 2).map((item) => (
-                    <button
+                    <a
                         key={item.label}
+                        href={item.href}
                         className={`w-[139px] h-[66px] flex items-center justify-center rounded-[60px] text-base font-medium transition duration-300 ${selected === item.label ? 'bg-[#7b7d7a] font-bold' : 'bg-transparent hover:bg-[#232323]'}`}
                         onClick={() => setSelected(item.label)}
                     >
                         {item.label}
-                    </button>
+                    </a>
                 ))}
             </div>
 
@@ -44,14 +44,15 @@ const Navbar = () => {
 
             {/* Right Menu (Desktop) */}
             <div className="hidden lg:flex flex-1 justify-end gap-4">
-                {menuItems.slice(3).map((item) => (
-                    <button
+                {menuItems.slice(2).map((item) => (
+                    <a
                         key={item.label}
+                        href={item.href}
                         className={`w-[139px] h-[66px] flex items-center justify-center rounded-[60px] text-base font-medium transition duration-300 ${selected === item.label ? 'bg-[#7b7d7a] font-bold' : 'bg-transparent hover:bg-[#232323]'}`}
                         onClick={() => setSelected(item.label)}
                     >
                         {item.label}
-                    </button>
+                    </a>
                 ))}
             </div>
 
@@ -68,8 +69,9 @@ const Navbar = () => {
                 <div className="absolute top-[100%] left-0 right-0 mt-2 bg-[#171717] rounded-[25px] border border-white backdrop-blur-[15px] lg:hidden z-40">
                     <div className="flex flex-col p-4 gap-2">
                         {menuItems.map((item) => (
-                            <button
+                            <a
                                 key={item.label}
+                                href={item.href}
                                 className={`w-full h-[50px] flex items-center justify-center rounded-[25px] text-base font-medium transition duration-300 ${selected === item.label ? 'bg-[#7b7d7a] font-bold' : 'bg-transparent hover:bg-[#232323]'}`}
                                 onClick={() => {
                                     setSelected(item.label);
@@ -77,7 +79,7 @@ const Navbar = () => {
                                 }}
                             >
                                 {item.label}
-                            </button>
+                            </a>
                         ))}
                     </div>
                 </div>

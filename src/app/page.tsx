@@ -1,6 +1,5 @@
 "use client";
 
-import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import CustomeText from "@/components/ui/CustomeText";
 import DualToggleButtons from "@/components/ui/DualButtons";
@@ -18,7 +17,7 @@ export default function Home() {
   const [showAllProjects, setShowAllProjects] = useState(false);
 
   return (
-    <div className="relative min-h-screen w-full bg-white py-10 flex flex-col items-center justify-start">
+    <div id="home" className="relative min-h-screen w-full bg-white py-10 flex flex-col items-center justify-start">
       <Navbar />
       
       {/* Hero Section */}
@@ -77,7 +76,7 @@ export default function Home() {
             </div>
 
             <Image
-              src="/girl.svg"
+              src="/p8.png"
               alt="abhiruchi"
               width={952}
               height={636}
@@ -94,7 +93,7 @@ export default function Home() {
       </div>
 
       {/* Services */}
-      <div className="relative flex flex-col w-full min-h-[878px] gap-16 sm:gap-[96px] items-center px-4 sm:px-6 lg:px-[71px] py-16 sm:py-[116px] bg-[#171717] rounded-[30px] sm:rounded-[50px] overflow-hidden -translate-y-8 sm:-translate-y-0 md:-translate-y-15 lg:translate-y-0 -mt-14">
+      <div id="about" className="relative flex flex-col w-full min-h-[878px] gap-16 sm:gap-[96px] items-center px-4 sm:px-6 lg:px-[71px] py-16 sm:py-[116px] bg-[#171717] rounded-[30px] sm:rounded-[50px] overflow-hidden -translate-y-8 sm:-translate-y-0 md:-translate-y-15 lg:translate-y-0 -mt-14">
         <Image
           src="/Frame 77.svg"
           alt="image"
@@ -201,7 +200,7 @@ export default function Home() {
       <div className="w-full mt-8 lg:mt-16 flex flex-col lg:flex-row items-center justify-between px-6 lg:px-[71px] py-20 lg:py-[122px] bg-[#F2F4F7] rounded-[32px] lg:rounded-[50px] gap-12 lg:gap-[96px]">
         <div className="relative w-full max-w-[500px] aspect-square group mx-auto lg:mx-0">
           <Image
-            src="/Property 1=Default.svg"
+            src="/boy.png"
             alt="Education graphic"
             fill
             className="object-contain z-10 transition-all duration-300 ease-in-out group-hover:translate-y-3"
@@ -209,7 +208,7 @@ export default function Home() {
           />
 
           <Image
-            src="/Property 1=Variant2.svg"
+            src="/Frame 88.png"
             alt="Education graphic"
             fill
             className="object-contain absolute -translate-y-[15px] transition-all duration-300 ease-in-out opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-110"
@@ -244,7 +243,7 @@ export default function Home() {
       </div>
 
       {/* Portfolio */}
-      <div className="w-full flex flex-col items-center px-4 sm:px-6 lg:px-[71px] py-12 sm:py-20 gap-10 lg:gap-12">
+      <div id="portfolio" className="w-full flex flex-col items-center px-4 sm:px-6 lg:px-[71px] py-12 sm:py-20 gap-10 lg:gap-12">
         <div className="w-full flex flex-col sm:flex-row justify-between items-start lg:items-center gap-6">
           <div className="flex flex-col items-start max-w-full lg:max-w-[643px]">
             <CustomeText
@@ -323,7 +322,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    <Footer />
     </div>
   );
 }

@@ -127,26 +127,26 @@ export const blogs: Blog[] = [
 
 export const portfolioData: PortfolioItem[] = [
   {
-    image: "/Frame 26.svg",
-    title: "Drone Data Workflow",
+    image: "/operation.png",
+    title: "Drone Data Inspection",
     href: "/project-1",
     desc: "Designed and executed end-to-end drone workflows for aerial data capture, processing, and analysis.",
   },
   {
-    image: "/Frame 26.svg",
-    title: "Computer Vision Systems",
+    image: "/p1.jpg",
+    title: "CV Drone Control",
     href: "/project-2",
     desc: "Built practical computer vision solutions to extract insights from imagery and automate analysis.",
   },
   {
-    image: "/Frame 26.svg",
-    title: "Machine Learning Apps",
+    image: "/medi.png",
+    title: "ML Medical Application",
     href: "/project-3",
     desc: "Applied ML models to real-world problems, integrating them into usable web and software systems.",
   },
   {
-    image: "/Frame 26.svg",
-    title: "System Integration",
+    image: "/555.PNG",
+    title: "Drone Light Show",
     href: "/project-4",
     desc: "Developed integrated systems that combine hardware, software, and mission planning for reliable operations.",
   },
@@ -181,7 +181,7 @@ export const reviews: Review[] = [
 
 export const cardData: CardData[] = [
   { title: "Software Development", imageSrc: "/p4.jpg" },
-  { title: "Computer Vision", imageSrc: "/p7.png" },
+  { title: "Computer Vision", imageSrc: "/P7.png" },
   { title: "Machine Learning", imageSrc: "/medi.png" },
   { title: "Drone Applications", imageSrc: "/operation.png" },
 ];

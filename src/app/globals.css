@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 .marquee {
     animation: scroll-left 10s linear infinite;
 }
