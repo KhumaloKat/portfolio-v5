@@ -90,10 +90,7 @@ function GenericSliderComponent<T extends AllowedCard>({
                 )}
                 {cardType === 'portfolio' && 'image' in item && 'href' in item && 'desc' in item && (
                   <PortfolioCard
-                    image={item.image}
-                    title={item.title}
-                    href={item.href}
-                    desc={item.desc}
+                    {...item}
                     priority={index === 0}
                   />
                 )}
@@ -174,10 +171,7 @@ function GenericSliderComponent<T extends AllowedCard>({
               )}
               {cardType === 'portfolio' && 'image' in item && 'href' in item && 'desc' in item && (
                 <PortfolioCard
-                  image={item.image}
-                  title={item.title}
-                  href={item.href}
-                  desc={item.desc}
+                  {...item}
                   priority={index === 0}
                 />
               )}

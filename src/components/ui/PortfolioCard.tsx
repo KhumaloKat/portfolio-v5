@@ -8,10 +8,11 @@ interface PortfolioCardProps extends PortfolioItem {
   priority?: boolean;
 }
 
-const PortfolioCardComponent: React.FC<PortfolioCardProps> = ({ image, title, href, desc, priority = false }) => {
+const PortfolioCardComponent: React.FC<PortfolioCardProps> = ({ priority = false, ...project }) => {
   return (
-    <div
-      className="gpu-layer relative group 
+    <Link
+      href={project.href}
+        className="gpu-layer relative group text-left 
         w-full 
         md:w-[633px] h-[250px] md:h-[371px] 
         md:max-w-none 
@@ -34,8 +35,8 @@ const PortfolioCardComponent: React.FC<PortfolioCardProps> = ({ image, title, hr
 
       {/* Background Image */}
       <Image
-        src={image}
-        alt={title}
+        src={project.image}
+        alt={project.title}
         fill
         className="object-cover z-0"
         priority={priority}
@@ -45,16 +46,14 @@ const PortfolioCardComponent: React.FC<PortfolioCardProps> = ({ image, title, hr
       <div className="relative z-20 w-full h-full flex flex-col justify-between">
         {/* Top-right Button */}
         <div className="flex justify-end p-2 md:p-4">
-          <Link href={href}>
-            <div className="w-[40px] h-[40px] md:w-[60px] md:h-[60px] 
-              rounded-full border-2 border-[#7b7d7a] 
-              group-hover:bg-[#7b7d7a] 
-              flex items-center justify-center 
-              transition-[transform,opacity,filter] duration-300"
-            >
-              <ArrowButton className="transition-[transform,opacity,filter] duration-300 stroke-[#7b7d7a] group-hover:stroke-white" />
-            </div>
-          </Link>
+          <span className="w-[40px] h-[40px] md:w-[60px] md:h-[60px] 
+            rounded-full border-2 border-[#7b7d7a] 
+            group-hover:bg-[#7b7d7a] 
+            flex items-center justify-center 
+            transition-[transform,opacity,filter] duration-300"
+          >
+            <ArrowButton className="transition-[transform,opacity,filter] duration-300 stroke-[#7b7d7a] group-hover:stroke-white" />
+          </span>
         </div>
 
         {/* Title */}
@@ -62,7 +61,7 @@ const PortfolioCardComponent: React.FC<PortfolioCardProps> = ({ image, title, hr
           text-[24px] sm:text-[28px] md:text-[70px] 
           text-[#FFFAF5] leading-[1]"
         >
-          {title}
+          {project.title}
         </h1>
 
         {/* Hover Description */}
@@ -75,14 +74,14 @@ const PortfolioCardComponent: React.FC<PortfolioCardProps> = ({ image, title, hr
           transition-[transform,opacity,filter] duration-500 ease-in-out z-30"
         >
           <h1 className="text-[18px] md:text-[32px] font-bold text-white mb-1 md:mb-2 text-center md:text-left">
-            {title}
+            {project.title}
           </h1>
           <p className="text-white text-sm leading-relaxed text-center">
-            {desc}
+            {project.desc}
           </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
