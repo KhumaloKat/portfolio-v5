@@ -5,25 +5,43 @@ import CustomeText from "@/components/ui/CustomeText";
 import DualToggleButtons from "@/components/ui/DualButtons";
 import Image from "next/image";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 // import { Star } from "lucide-react";
 // import OrangeButton from "@/components/ui/OrangeButton";
 // import ArrowButton from "@/components/ui/ArrowButton";
 import { experiences, buttons, skills, portfolioData, cardData } from '../data/data';
-import { GenericSlider } from "@/components/ui/GenericSlider";
 import ClientOnly from "@/components/ui/ClientOnly";
-import PortfolioCard from "@/components/ui/PortfolioCard";
+import MotionSection from "@/components/ui/MotionSection";
+import useIsTouchDevice from "@/components/ui/useIsTouchDevice";
+import ProfessionTypewriter from "@/components/ui/ProfessionTypewriter";
+import EducationTimeline from "@/components/ui/EducationTimeline";
+
+const GenericSlider = dynamic(
+  () => import("@/components/ui/GenericSlider").then((mod) => mod.GenericSlider),
+  {
+    ssr: false,
+    loading: () => <div className="w-full h-[320px] rounded-[24px] bg-white/10 animate-pulse" />,
+  }
+);
+
+const PortfolioCard = dynamic(() => import("@/components/ui/PortfolioCard"), {
+  ssr: false,
+  loading: () => <div className="h-[300px] w-full rounded-[20px] bg-[#f2f4f7] animate-pulse" />,
+});
 
 export default function Home() {
   const [showAllProjects, setShowAllProjects] = useState(false);
+  const isTouchDevice = useIsTouchDevice();
 
   return (
-    <div id="home" className="relative min-h-screen w-full bg-white py-10 flex flex-col items-center justify-start">
-      <Navbar />
-      
+    <div id="home" className="relative w-full bg-white flex flex-col items-center justify-start overflow-x-hidden">
       {/* Hero Section */}
-      <div className="group flex flex-col md:flex-row w-full min-h-[500px] sm:min-h-[600px] lg:h-[700px] px-4 sm:px-6 md:px-8 gap-6 sm:gap-8 md:gap-[71px] items-center justify-center mt-6">
-        <div className="relative w-full flex flex-col items-center justify-center">
-          <div className="flex w-full max-w-[952px] flex-col items-center justify-center transition-all duration-300 ease-in-out group-hover:translate-y-[200px] group-hover:opacity-0 px-4 sm:px-6 pt-12 sm:pt-16 md:pt-20">
+      <section className="w-full h-screen flex flex-col items-center px-4 sm:px-6 md:px-8 pt-6 sm:pt-8 lg:pt-10 overflow-hidden">
+        <Navbar />
+
+        <div className="group w-full flex-1 flex items-stretch justify-center">
+          <div className="relative w-full max-w-[952px] h-full flex flex-col items-center justify-between pt-6 sm:pt-8 md:pt-10 pb-0">
+            <div className="flex w-full max-w-[952px] flex-col items-center justify-center transition-all duration-300 ease-in-out group-hover:translate-y-[120px] group-hover:opacity-0 px-4 sm:px-6">
             
 
             {/* Main heading */}
@@ -45,9 +63,8 @@ export default function Home() {
             </div>
             
             {/* Subtitle */}
-            <CustomeText 
-              title="Computer Systems Engineer" 
-              className="text-[#171717] font-semibold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-center" 
+            <ProfessionTypewriter
+              className="text-[#171717] font-semibold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-center"
             />
             
             {/* Contact info */}
@@ -57,43 +74,60 @@ export default function Home() {
             <p className="mt-3 text-[#667085] text-xs sm:text-sm text-center tracking-[0.08em] uppercase">
               Linkedin | Github
             </p>
-          </div>
-
-          <div className="relative w-full max-w-[952px] aspect-[3/2] flex flex-col items-center justify-center -translate-y-[10%] sm:-translate-y-[15%] md:-translate-y-[20%] mx-auto px-4">
-            <div className="absolute bottom-0 z-0 w-[90%] max-w-[812px] aspect-[2/1] overflow-hidden flex items-center justify-center pointer-events-auto">
-                <div className="absolute w-full h-full bg-[#7b7d7a] rounded-t-full" />
             </div>
 
-            <div className="absolute z-10 transition-all duration-500 ease-in-out opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-105">
+            <div className="relative w-full max-w-[952px] flex-1 min-h-[260px] sm:min-h-[320px] md:min-h-[360px] flex flex-col items-center justify-end mx-auto px-4">
+
+              <div className="absolute bottom-0 z-0 w-[90%] max-w-[812px] aspect-[2/1] overflow-hidden flex items-center justify-center pointer-events-auto">
+                <div className="absolute w-full h-full bg-[#7b7d7a] rounded-t-full" />
+              </div>
+
+              <div
+                className={`absolute z-10 transition-[transform,opacity,filter] duration-500 ease-in-out ${
+                  isTouchDevice
+                    ? "opacity-100 scale-100"
+                    : "opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-105"
+                }`}
+                style={
+                  isTouchDevice
+                    ? {
+                        animation: "hero-mobile-float 5.6s ease-in-out infinite",
+                        willChange: "transform, opacity",
+                        transform: "translate3d(0, 0, 0)",
+                        backfaceVisibility: "hidden",
+                      }
+                    : undefined
+                }
+              >
+                <Image
+                  src="/Frame 68.png"
+                  alt="Frame Decoration"
+                  width={917}
+                  height={688}
+                  className="object-contain w-full h-auto"
+                  priority
+                />
+              </div>
+
               <Image
-                src="/Frame 68.png"
-                alt="Frame Decoration"
-                width={917}
-                height={688}
-                className="object-contain w-full h-auto"
+                src="/p8.png"
+                alt="abhiruchi"
+                width={952}
+                height={636}
+                className="relative z-20 w-full h-auto max-h-[52vh] object-contain"
                 priority
               />
-            </div>
 
-            <Image
-              src="/p8.png"
-              alt="abhiruchi"
-              width={952}
-              height={636}
-              className="relative z-20 w-full h-auto object-contain mt-5"
-              priority
-            />
-
-            <div className="absolute bottom-[10%] z-30 w-full hidden md:flex justify-center">
-              <DualToggleButtons />
+              <div className="absolute bottom-2 sm:bottom-4 z-30 w-full hidden md:flex justify-center">
+                <DualToggleButtons />
+              </div>
             </div>
           </div>
         </div>
-
-      </div>
+      </section>
 
       {/* Services */}
-      <div id="about" className="relative flex flex-col w-full min-h-[878px] gap-16 sm:gap-[96px] items-center px-4 sm:px-6 lg:px-[71px] py-16 sm:py-[116px] bg-[#171717] rounded-[30px] sm:rounded-[50px] overflow-hidden -translate-y-8 sm:-translate-y-0 md:-translate-y-15 lg:translate-y-0 -mt-14">
+      <section id="about" className="relative flex flex-col w-full min-h-[878px] gap-16 sm:gap-[96px] items-center px-4 sm:px-6 lg:px-[71px] py-16 sm:py-[116px] bg-[#171717] rounded-[30px] sm:rounded-[50px] overflow-hidden">
         <Image
           src="/Frame 77.svg"
           alt="image"
@@ -111,7 +145,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="relative w-full max-w-[1299px] flex items-center justify-center">
+        <div className="relative mt-12 sm:mt-14 w-full max-w-[1299px] flex items-center justify-center">
           <GenericSlider
             data={cardData}
             slidesPerView={3}
@@ -119,10 +153,10 @@ export default function Home() {
             cardType="hover"
           />
         </div>
-      </div>
+      </section>
 
       {/* Work Experience */}
-      <div className="w-full min-h-[600px] lg:h-[827px] flex flex-col items-start mx-auto px-4 sm:px-6 lg:px-[71px] py-8 lg:py-16">
+      <MotionSection id="experience" className="section-shell w-full min-h-screen flex flex-col items-start justify-center mx-auto px-4 sm:px-6 lg:px-[71px] py-8 lg:py-16 bg-white">
         <div className="w-full h-auto lg:h-[234px] flex lg:flex-row items-start justify-center space-x-2.5 mb-8 lg:mb-16 text-center lg:text-left">
           <CustomeText title="My" className="font-medium text-4xl sm:text-5xl lg:text-6xl text-[#344054]" />
           <CustomeText title="Work" className="font-medium text-4xl sm:text-5xl lg:text-6xl text-[#7b7d7a]" />
@@ -194,56 +228,15 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </div>
+      </MotionSection>
 
       {/* Education */}
-      <div className="w-full mt-8 lg:mt-16 flex flex-col lg:flex-row items-center justify-between px-6 lg:px-[71px] py-20 lg:py-[122px] bg-[#F2F4F7] rounded-[32px] lg:rounded-[50px] gap-12 lg:gap-[96px]">
-        <div className="relative w-full max-w-[500px] aspect-square group mx-auto lg:mx-0">
-          <Image
-            src="/boy.png"
-            alt="Education graphic"
-            fill
-            className="object-contain z-10 transition-all duration-300 ease-in-out group-hover:translate-y-3"
-            priority
-          />
-
-          <Image
-            src="/Frame 88.png"
-            alt="Education graphic"
-            fill
-            className="object-contain absolute -translate-y-[15px] transition-all duration-300 ease-in-out opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-110"
-            priority
-          />
-        </div>
-
-        <div className="w-full max-w-xl flex flex-col items-start gap-8">
-          <div className="flex flex-wrap text-4xl sm:text-5xl lg:text-6xl font-semibold gap-2">
-            <CustomeText title="Education" className="text-[#344054]" />
-          </div>
-
-          <div className="flex flex-col gap-6 text-[#344054] text-base sm:text-lg lg:text-xl leading-relaxed max-w-md">
-            <div>
-              <p className="font-semibold">Advanced Diploma in Computer System Engineering</p>
-              <p>Tshwane University of Technology — In Progress</p>
-            </div>
-            <div>
-              <p className="font-semibold">Remote Pilot Certificate - BVLOS</p>
-              <p>NTSU Drone Academy — 2025</p>
-            </div>
-            <div>
-              <p className="font-semibold">Diploma in Computer System Engineering</p>
-              <p>Tshwane University of Technology — 2024</p>
-            </div>
-            <div>
-              <p className="font-semibold">National Senior Certificate</p>
-              <p>Ziphakamiseni Secondary School — 2019</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <MotionSection id="education" className="section-shell relative w-full min-h-screen bg-transparent">
+        <EducationTimeline />
+      </MotionSection>
 
       {/* Portfolio */}
-      <div id="portfolio" className="w-full flex flex-col items-center px-4 sm:px-6 lg:px-[71px] py-12 sm:py-20 gap-10 lg:gap-12">
+      <MotionSection id="portfolio" className="section-shell w-full min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-[71px] py-12 sm:py-20 gap-10 lg:gap-12">
         <div className="w-full flex flex-col sm:flex-row justify-between items-start lg:items-center gap-6">
           <div className="flex flex-col items-start max-w-full lg:max-w-[643px]">
             <CustomeText
@@ -293,10 +286,11 @@ export default function Home() {
           </div>
 
         </div>
-      </div>
+      </MotionSection>
 
       {/* Skills Slider */}
-      <div className="relative w-full h-[147px] bg-[#7b7d7a] rounded-tl-4xl rounded-br-4xl overflow-hidden">
+      <div className="relative w-full h-[147px] bg-[#0f1115] overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none opacity-80 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.16),transparent_40%),radial-gradient(circle_at_80%_0%,rgba(123,125,122,0.35),transparent_45%)]" />
         <div className="absolute w-[5000px] h-[63px] bg-white -rotate-2 -mt-2 md:mt-0 md:-rotate-[1.9deg] z-10 -ml-2 flex items-center">
           <div className="marquee flex gap-8 w-max">
             {[...skills, ...skills].map((skill, index) => (

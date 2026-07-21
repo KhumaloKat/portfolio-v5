@@ -33,7 +33,7 @@ export default function RootLayout({
       >
         <div className="overflow-x-hidden">
           {children}
-          <Analytics debug={true} />;
+          <Analytics debug={true} />
           <Footer/>
         </div>
       </body>

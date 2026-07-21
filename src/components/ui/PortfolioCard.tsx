@@ -2,20 +2,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ArrowButton from './ArrowButton';
 import { PortfolioItem } from '@/data/data';
+import { memo } from 'react';
 
 interface PortfolioCardProps extends PortfolioItem {
   priority?: boolean;
 }
 
-const PortfolioCard: React.FC<PortfolioCardProps> = ({ image, title, href, desc, priority = false }) => {
+const PortfolioCardComponent: React.FC<PortfolioCardProps> = ({ image, title, href, desc, priority = false }) => {
   return (
     <div
-      className="relative group 
+      className="gpu-layer relative group 
         w-full 
         md:w-[633px] h-[250px] md:h-[371px] 
         md:max-w-none 
         rounded-[16px] md:rounded-[20px] 
-        overflow-hidden transition-all duration-300 cursor-pointer 
+        overflow-hidden transition-[transform,opacity,filter] duration-300 cursor-pointer 
         shadow-md"
       style={{
         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
@@ -49,9 +50,9 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ image, title, href, desc,
               rounded-full border-2 border-[#7b7d7a] 
               group-hover:bg-[#7b7d7a] 
               flex items-center justify-center 
-              transition-all duration-300"
+              transition-[transform,opacity,filter] duration-300"
             >
-              <ArrowButton className="transition-all duration-300 stroke-[#7b7d7a] group-hover:stroke-white" />
+              <ArrowButton className="transition-[transform,opacity,filter] duration-300 stroke-[#7b7d7a] group-hover:stroke-white" />
             </div>
           </Link>
         </div>
@@ -71,7 +72,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ image, title, href, desc,
           rounded-[16px] md:rounded-[20px] 
           px-4 md:px-6 py-3 md:py-4 
           opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 
-          transition-all duration-500 ease-in-out z-30"
+          transition-[transform,opacity,filter] duration-500 ease-in-out z-30"
         >
           <h1 className="text-[18px] md:text-[32px] font-bold text-white mb-1 md:mb-2 text-center md:text-left">
             {title}
@@ -84,5 +85,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ image, title, href, desc,
     </div>
   );
 };
+
+const PortfolioCard = memo(PortfolioCardComponent);
 
 export default PortfolioCard;

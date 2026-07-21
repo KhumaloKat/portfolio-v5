@@ -4,8 +4,30 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  overflow-x: hidden;
+}
+
+.gpu-layer {
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  contain: layout paint style;
+}
+
+.animation-safe {
+  transition-property: transform, opacity, filter;
+}
+
+.section-shell {
+  min-height: 100vh;
+}
+
 .marquee {
     animation: scroll-left 10s linear infinite;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
 }
 
 @keyframes scroll-left {
@@ -60,3 +82,43 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #7b7d7a;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation: none !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes hero-orbit {
+  0% {
+    transform: rotate(0deg) translateX(var(--orbit-radius, 220px));
+  }
+
+  100% {
+    transform: rotate(360deg) translateX(var(--orbit-radius, 220px));
+  }
+}
+
+@keyframes hero-mobile-float {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.86;
+  }
+
+  50% {
+    transform: translate3d(0, -10px, 0) scale(1.02);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.86;
+  }
+}
+

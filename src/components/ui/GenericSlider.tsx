@@ -4,7 +4,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
+import type { Swiper as SwiperType } from 'swiper';
 
 import ServicesCard from './ServicesCard';
 import PortfolioCard from './PortfolioCard';
@@ -27,13 +28,16 @@ interface GenericSliderProps<T extends AllowedCard> {
   cardType: 'hover' | 'portfolio' | 'review' | 'blog';
 }
 
-export function GenericSlider<T extends AllowedCard>({
+function GenericSliderComponent<T extends AllowedCard>({
   data,
   slidesPerView,
   heightClass,
   cardType,
 }: GenericSliderProps<T>) {
   const [isClient, setIsClient] = useState(false);
+  const [isInView, setIsInView] = useState(true);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const swiperRef = useRef<SwiperType | null>(null);
   const isReview = cardType === 'review';
   const isPortfolio = cardType === 'portfolio';
   const isBlog = cardType === 'blog';
@@ -41,6 +45,37 @@ export function GenericSlider<T extends AllowedCard>({
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    const node = rootRef.current;
+    if (!node) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const swiper = swiperRef.current;
+    if (!swiper?.autoplay) {
+      return;
+    }
+
+    if (isInView) {
+      swiper.autoplay.start();
+      return;
+    }
+
+    swiper.autoplay.stop();
+  }, [isInView]);
 
   if (!isClient) {
     // Return a placeholder during SSR to prevent hydration mismatch
@@ -89,16 +124,20 @@ export function GenericSlider<T extends AllowedCard>({
   }
 
   return (
-    <div className={`relative w-full flex flex-col justify-center items-center ${heightClass || ''}`}>
+    <div ref={rootRef} className={`relative w-full flex flex-col justify-center items-center ${heightClass || ''}`}>
       <div className={`w-full px-4 sm:px-6 lg:px-0 ${!isReview ? 'max-w-[1440px]' : ''}`}>
         <Swiper
+          onSwiper={(instance) => {
+            swiperRef.current = instance;
+          }}
           modules={[Pagination, Autoplay]}
           spaceBetween={20}
           centeredSlides={isReview}
           loop={true}
           autoplay={{
             delay: 3000,
-            disableOnInteraction: false,
+            disableOnInteraction: true,
+            pauseOnMouseEnter: true,
           }}
           pagination={{ clickable: true }}
           breakpoints={{
@@ -123,7 +162,7 @@ export function GenericSlider<T extends AllowedCard>({
               spaceBetween: 24,
             },
           }}
-          className="!pb-16"
+          className={isPortfolio ? "!pb-16 !overflow-visible" : "!pb-16"}
         >
           {data.map((item, index) => (
             <SwiperSlide
@@ -167,3 +206,5 @@ export function GenericSlider<T extends AllowedCard>({
     </div>
   );
 }
+
+export const GenericSlider = memo(GenericSliderComponent) as typeof GenericSliderComponent;

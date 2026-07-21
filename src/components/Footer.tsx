@@ -83,16 +83,18 @@ const Footer = () => {
 };
 
   return (
-    <footer id="contact" className="w-full bg-white flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-[71px] gap-10">
-      <div className="w-full max-w-4xl text-center flex flex-col items-center gap-4">
+    <footer id="contact" className="section-shell relative w-full min-h-screen bg-[#0f1115] flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-[71px] gap-10 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none opacity-80 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.16),transparent_40%),radial-gradient(circle_at_80%_0%,rgba(123,125,122,0.35),transparent_45%)]" />
+
+      <div className="w-full max-w-4xl text-center flex flex-col items-center gap-4 relative z-10">
         <CustomeText
           title="Contact Me"
-          className="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[64px] text-[#344054]"
+          className="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[64px] text-[#FCFCFD]"
         />
       </div>
 
-      <div className="w-full max-w-6xl grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-[32px] border border-[#E4E7EC] bg-[#F9FAFB] p-6 md:p-8 shadow-sm">
+      <div className="w-full max-w-6xl grid gap-8 lg:grid-cols-[1.1fr_0.9fr] relative z-10">
+        <div className="gpu-layer rounded-[32px] border border-white/30 bg-white/10 backdrop-blur-2xl p-6 md:p-8 shadow-[0_24px_60px_rgba(0,0,0,0.3)]">
           <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               <input
@@ -102,7 +104,7 @@ const Footer = () => {
                 onChange={handleChange}
                 placeholder="Name*"
                 required
-                className="w-full rounded-full border border-[#D0D5DD] bg-white px-4 py-3 text-base text-[#1D2939] outline-none placeholder:text-[#667085]"
+                className="gpu-layer w-full rounded-full border border-white/35 bg-white/15 px-4 py-3 text-base text-white outline-none placeholder:text-white/65 backdrop-blur-xl transition-[transform,opacity,filter] duration-300 focus:brightness-110"
               />
               <input
                 type="email"
@@ -111,7 +113,7 @@ const Footer = () => {
                 onChange={handleChange}
                 placeholder="Email*"
                 required
-                className="w-full rounded-full border border-[#D0D5DD] bg-white px-4 py-3 text-base text-[#1D2939] outline-none placeholder:text-[#667085]"
+                className="gpu-layer w-full rounded-full border border-white/35 bg-white/15 px-4 py-3 text-base text-white outline-none placeholder:text-white/65 backdrop-blur-xl transition-[transform,opacity,filter] duration-300 focus:brightness-110"
               />
             </div>
 
@@ -121,7 +123,7 @@ const Footer = () => {
               value={formData.subject}
               onChange={handleChange}
               placeholder="Subject"
-              className="w-full rounded-full border border-[#D0D5DD] bg-white px-4 py-3 text-base text-[#1D2939] outline-none placeholder:text-[#667085]"
+              className="gpu-layer w-full rounded-full border border-white/35 bg-white/15 px-4 py-3 text-base text-white outline-none placeholder:text-white/65 backdrop-blur-xl transition-[transform,opacity,filter] duration-300 focus:brightness-110"
             />
 
             <textarea
@@ -131,20 +133,20 @@ const Footer = () => {
               placeholder="Message"
               rows={6}
               required
-              className="w-full rounded-[24px] border border-[#D0D5DD] bg-white px-4 py-3 text-base text-[#1D2939] outline-none placeholder:text-[#667085]"
+              className="gpu-layer w-full rounded-[24px] border border-white/35 bg-white/15 px-4 py-3 text-base text-white outline-none placeholder:text-white/65 backdrop-blur-xl transition-[transform,opacity,filter] duration-300 focus:brightness-110"
             />
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <button
                 type="submit"
                 disabled={isSending}
-                className="w-full sm:w-fit rounded-full bg-[#7b7d7a] px-8 py-3 text-lg font-semibold text-white transition duration-300 hover:bg-[#5f6160] disabled:cursor-not-allowed disabled:opacity-70"
+                className="gpu-layer w-full sm:w-fit rounded-full border border-white/35 bg-white/15 px-8 py-3 text-lg font-semibold text-white backdrop-blur-xl transition-[transform,opacity,filter] duration-300 hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {isSending ? "Sending..." : "Send"}
               </button>
 
               {statusMessage ? (
-                <p className={`text-sm ${statusMessage.includes("success") ? "text-green-600" : "text-red-600"}`}>
+                <p className={`text-sm ${statusMessage.includes("success") ? "text-emerald-300" : "text-rose-300"}`}>
                   {statusMessage}
                 </p>
               ) : null}
@@ -152,39 +154,39 @@ const Footer = () => {
           </form>
         </div>
 
-        <div className="rounded-[32px] border border-[#E4E7EC] bg-white p-6 md:p-8 shadow-sm">
+        <div className="gpu-layer rounded-[32px] border border-white/30 bg-white/10 backdrop-blur-2xl p-6 md:p-8 shadow-[0_24px_60px_rgba(0,0,0,0.3)]">
           <div className="space-y-6">
             <div>
-              <h3 className="text-2xl font-semibold text-[#344054]">Khumalo Katleho</h3>
-              <p className="text-[#667085]">Computer System Engineer</p>
+              <h3 className="text-2xl font-semibold text-white">Khumalo Katleho</h3>
+              <p className="text-white/70">Computer System Engineer</p>
             </div>
 
-            <div className="space-y-4 text-[#344054]">
+            <div className="space-y-4 text-white/90">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#7b7d7a]">Phone</p>
-                <a href="tel:+27641622166" className="mt-1 inline-block hover:text-[#7b7d7a]">+27 64 162 2166</a>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">Phone</p>
+                <a href="tel:+27641622166" className="mt-1 inline-block transition-[transform,opacity,filter] duration-300 hover:brightness-110">+27 64 162 2166</a>
               </div>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#7b7d7a]">Email</p>
-                <a href="mailto:khumalosiya2001@gmail.com" className="mt-1 inline-block hover:text-[#7b7d7a]">khumalosiya2001@gmail.com</a>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">Email</p>
+                <a href="mailto:khumalosiya2001@gmail.com" className="mt-1 inline-block transition-[transform,opacity,filter] duration-300 hover:brightness-110">khumalosiya2001@gmail.com</a>
               </div>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#7b7d7a]">GitHub</p>
-                <a href="https://github.com/KhumaloKat" target="_blank" rel="noreferrer" className="mt-1 inline-block hover:text-[#7b7d7a]">KhumaloKat</a>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">GitHub</p>
+                <a href="https://github.com/KhumaloKat" target="_blank" rel="noreferrer" className="mt-1 inline-block transition-[transform,opacity,filter] duration-300 hover:brightness-110">KhumaloKat</a>
               </div>
             </div>
 
             <div className="flex flex-wrap gap-3 pt-2">
-              <a href="https://www.linkedin.com/in/khumalo-kat/" target="_blank" rel="noreferrer" className="rounded-full border border-[#D0D5DD] px-4 py-2 text-sm font-medium text-[#344054] transition hover:border-[#7b7d7a] hover:text-[#7b7d7a]">LinkedIn</a>
-              <a href="https://www.instagram.com/khumalo_kat/" target="_blank" rel="noreferrer" className="rounded-full border border-[#D0D5DD] px-4 py-2 text-sm font-medium text-[#344054] transition hover:border-[#7b7d7a] hover:text-[#7b7d7a]">Instagram</a>
-              <a href="https://www.facebook.com/khumalo.kat/" target="_blank" rel="noreferrer" className="rounded-full border border-[#D0D5DD] px-4 py-2 text-sm font-medium text-[#344054] transition hover:border-[#7b7d7a] hover:text-[#7b7d7a]">Facebook</a>
-              <a href="https://x.com/khumalo_kat" target="_blank" rel="noreferrer" className="rounded-full border border-[#D0D5DD] px-4 py-2 text-sm font-medium text-[#344054] transition hover:border-[#7b7d7a] hover:text-[#7b7d7a]">X</a>
+              <a href="https://www.linkedin.com/in/khumalo-kat/" target="_blank" rel="noreferrer" className="gpu-layer rounded-full border border-white/35 bg-white/15 px-4 py-2 text-sm font-medium text-white transition-[transform,opacity,filter] duration-300 hover:scale-[1.03] hover:brightness-110">LinkedIn</a>
+              <a href="https://www.instagram.com/khumalo_kat/" target="_blank" rel="noreferrer" className="gpu-layer rounded-full border border-white/35 bg-white/15 px-4 py-2 text-sm font-medium text-white transition-[transform,opacity,filter] duration-300 hover:scale-[1.03] hover:brightness-110">Instagram</a>
+              <a href="https://www.facebook.com/khumalo.kat/" target="_blank" rel="noreferrer" className="gpu-layer rounded-full border border-white/35 bg-white/15 px-4 py-2 text-sm font-medium text-white transition-[transform,opacity,filter] duration-300 hover:scale-[1.03] hover:brightness-110">Facebook</a>
+              <a href="https://x.com/khumalo_kat" target="_blank" rel="noreferrer" className="gpu-layer rounded-full border border-white/35 bg-white/15 px-4 py-2 text-sm font-medium text-white transition-[transform,opacity,filter] duration-300 hover:scale-[1.03] hover:brightness-110">X</a>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="w-full max-w-6xl border-t border-[#E4E7EC] pt-6 text-center text-sm text-[#667085]">
+      <div className="w-full max-w-6xl border-t border-white/20 pt-6 text-center text-sm text-white/70 relative z-10">
         <p>© copyright KhumaloKat design | 2025</p>
       </div>
     </footer>
